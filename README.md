@@ -61,7 +61,7 @@
 <body>
     <div class="content-overlay"></div> <!-- Capa de fondo semitransparente -->
     <div class="container">
-    <br><h1>Lista de Tareas ID 10151955</h1></br>
+    <<h1>Lista de Tareas ID 10151955</h1>
     <input type="text" id="task-input" placeholder="Agregar una nueva tarea">
     <select id="task-priority">
         <option value="baja">Baja</option>
