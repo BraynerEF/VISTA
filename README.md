@@ -14,6 +14,7 @@
             background-color: #e0e0e0;
             background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el fondo */
         }
+
         .content-overlay {
             position: absolute;
             top: 0;
@@ -22,9 +23,13 @@
             height: 100%;
             background-color: rgba(252, 248, 248, 0.062); /* Fondo semitransparente */
         }
+
         .container {
             position: relative;
             z-index: 1; /* Para que el contenido esté sobre el fondo */
+            max-width: 800px; /* Limitar el ancho máximo */
+            margin: 0 auto; /* Centrar el contenido horizontalmente */
+            padding: 20px; /* Agregar espacio alrededor del contenido */
         }
         #task-list {
             list-style-type: none; /* Quita las viñetas o números de la lista de tareas */
@@ -42,7 +47,7 @@
         }
         .task.completed {
             text-decoration: line-through;
-            color: #ef265f; /* Cambiado el color de completado */
+            color: #ef265fc7; /* Cambiado el color de completado */
         }
         button {
             background-color: green;
@@ -56,12 +61,18 @@
             border: none;
             cursor: pointer;
         }
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px; /* Ajusta el relleno para pantallas más pequeñas */
+            }
+        }
     </style>
 </head>
 <body>
     <div class="content-overlay"></div> <!-- Capa de fondo semitransparente -->
     <div class="container">
-    <<h1>Lista de Tareas ID 10151955</h1>
+
+    <br><h1>Lista de Tareas ID 10151955</h1></br>
     <input type="text" id="task-input" placeholder="Agregar una nueva tarea">
     <select id="task-priority">
         <option value="baja">Baja</option>
@@ -70,14 +81,17 @@
     </select>
     <button type="button" onclick="addTask()">Agregar</button>
     <ul id="task-list"></ul>
+
     <script>
         const taskList = document.getElementById("task-list");
         const taskInput = document.getElementById("task-input");
         const taskPriority = document.getElementById("task-priority");
+
         // Función para agregar una tarea
         function addTask() {
             const taskText = taskInput.value.trim();
             const priority = taskPriority.value;
+
             if (taskText !== "") {
                 const taskItem = document.createElement("li");
                 taskItem.classList.add("task");
@@ -89,26 +103,31 @@
                 `;
                 taskList.appendChild(taskItem);
                 taskInput.value = "";
+
                 // Guardar la tarea en el almacenamiento local
                 saveTask(taskText, priority);
             }
         }
+
         // Función para marcar una tarea completa
         function completeTask(button) {
             const taskItem = button.parentElement;
             taskItem.classList.toggle("completed");
         }
+
         // Función para editar una tarea
         function editTask(button) {
             const taskItem = button.parentElement;
             const taskText = taskItem.querySelector("span").textContent;
             const newTaskText = prompt("Editar tarea:", taskText);
+
             if (newTaskText !== null) {
                 taskItem.querySelector("span").textContent = newTaskText;
                 // Actualizar la tarea en el almacenamiento local
                 updateTask(taskText, newTaskText);
             }
         }
+
         // Función para eliminar una tarea
         function deleteTask(button) {
             const taskItem = button.parentElement;
@@ -117,12 +136,14 @@
             // Eliminar la tarea del almacenamiento local
             removeTask(taskText);
         }
+
         // Guardar la tarea en el almacenamiento local
         function saveTask(taskText, priority) {
             const tasks = JSON.parse(localStorage.getItem("tasks"));
             tasks.push({ text: taskText, priority: priority });
             localStorage.setItem("tasks", JSON.stringify(tasks));
         }
+
         // Actualizar la tarea en el almacenamiento local
         function updateTask(oldTaskText, newTaskText) {
             const tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -132,12 +153,14 @@
                 localStorage.setItem("tasks", JSON.stringify(tasks));
             }
         }
+
         // Eliminar la tarea del almacenamiento local
         function removeTask(taskText) {
             const tasks = JSON.parse(localStorage.getItem("tasks"));
             const updatedTasks = tasks.filter((task) => task.text !== taskText);
             localStorage.setItem("tasks", JSON.stringify(updatedTasks));
         }
+
         // Cargar tareas del almacenamiento local al cargar la página
         window.addEventListener("load", () => {
             const tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -157,3 +180,4 @@
     </div>
 </body>
 </html>
+
